@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python程序设计结课作业展示 - 明日方舟</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c1a30 0%, #1a3a5f 100%);
+            color: #e0f0ff;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            animation: fadeInDown 1s ease;
+            background: rgba(12, 30, 56, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(64, 156, 255, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            color: #ffd166;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
+            background: linear-gradient(90deg, #ffd166, #ff9e6d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            color: #64a0ff;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+        
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .video-section, .images-section {
+            background: rgba(12, 30, 56, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+            border: 1px solid rgba(64, 156, 255, 0.3);
+        }
+        
+        .video-section:hover, .images-section:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 50, 150, 0.4);
+        }
+        
+        .section-header {
+            background: linear-gradient(90deg, #0a4daa, #0088ff);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .section-header i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+        
+        .section-content {
+            padding: 25px;
+        }
+        
+        /* 视频容器样式 */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 宽高比 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #000;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+        }
+        
+        .video-info {
+            padding: 10px 0;
+        }
+        
+        .video-info h3 {
+            color: #ffd166;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .video-info p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        /* 图片容器样式 */
+        .image-card {
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            background: rgba(8, 20, 40, 0.6);
+            border: 1px solid rgba(64, 156, 255, 0.2);
+        }
+        
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 80, 200, 0.4);
+        }
+        
+        .image-container {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a1a33 0%, #1a3a5f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .image-card:hover .image-container img {
+            transform: scale(1.05);
+        }
+        
+        .image-description {
+            padding: 20px;
+            background: rgba(10, 30, 60, 0.5);
+            border-top: 1px solid rgba(64, 156, 255, 0.2);
+        }
+        
+        .image-description h3 {
+            color: #64a0ff;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .image-description h3 i {
+            margin-right: 10px;
+            color: #ff9e6d;
+        }
+        
+        .image-description p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 25px;
+            color: #8cb3ff;
+            font-size: 1rem;
+            background: rgba(12, 30, 56, 0.7);
+            border-radius: 15px;
+            border: 1px solid rgba(64, 156, 255, 0.3);
+        }
+        
+        /* 加载动画 */
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(100, 160, 255, 0.3);
+            border-top: 5px solid #64a0ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* 错误提示 */
+        .error-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff6b6b;
+            text-align: center;
+            width: 80%;
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .fadeInUp {
+            animation: fadeInUp 1s ease;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .video-section, .images-section {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .image-container {
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .image-container {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-code"></i> Python程序设计结课作业展示</h1>
+            <p class="subtitle">明日方舟弹幕数据分析</p>
+        </header>
+        
+        <div class="content-wrapper">
+            <!-- 视频部分 -->
+            <section class="video-section fadeInUp">
+                <div class="section-header">
+                    <i class="fab fa-bilibili"></i>
+                    <h2>B站视频展示</h2>
+                </div>
+                <div class="section-content">
+                    <div class="video-container">
+                        <!-- 加载状态 -->
+                        <div class="loader"></div>
+                        <!-- 视频嵌入位置 -->
+                        <iframe src="//player.bilibili.com/player.html?aid=113854214309949&bvid=BV1Fiwre7EpE&cid=27961787478&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" onload="this.previousElementSibling.style.display='none'"></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>【明日方舟新春会】灶里乾坤</h3>
+                        <p>民以食为天，照拂天下烟火。本视频展示了明日方舟新春会的精彩内容，通过对弹幕数据的分析，揭示了观众互动的热点和情感倾向。</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 图片部分 -->
+            <section class="images-section fadeInUp">
+                <div class="section-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <h2>数据分析展示</h2>
+                </div>
+                <div class="section-content">
+                    <!-- 第一张图片 -->
+                    <div class="image-card">
+                        <div class="image-container">
+                            <!-- 加载状态 -->
+                            <div class="loader"></div>
+                            <!-- 图片文件位置 -->
+                            <img src="https://raw.githubusercontent.com/zhenshu23/sunrise/main/.github/workflows/danmaku_count.png" 
+                                 alt="弹幕数量变化图" 
+                                 onload="this.previousElementSibling.style.display='none'"
+                                 onerror="this.previousElementSibling.style.display='none'; this.nextElementSibling.style.display='block'">
+                            <!-- 错误提示 -->
+                            <div class="error-message" style="display:none;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>图片加载失败，请检查网络连接</p>
+                            </div>
+                        </div>
+                        <div class="image-description">
+                            <h3><i class="fas fa-chart-line"></i> 弹幕数量变化图</h3>
+                            <p>以5秒为单位统计的弹幕数量变化趋势图，展示了视频不同时间段的观众互动热度峰值。X轴代表视频时间进度，Y轴表示弹幕数量。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 第二张图片 -->
+                    <div class="image-card">
+                        <div class="image-container">
+                            <!-- 加载状态 -->
+                            <div class="loader"></div>
+                            <!-- 图片文件位置 -->
+                            <img src="https://raw.githubusercontent.com/zhenshu23/sunrise/main/.github/workflows/%E5%BE%AE%E8%AF%8D%E4%BA%91.png" 
+                                 alt="弹幕文本词云图" 
+                                 onload="this.previousElementSibling.style.display='none'"
+                                 onerror="this.previousElementSibling.style.display='none'; this.nextElementSibling.style.display='block'">
+                            <!-- 错误提示 -->
+                            <div class="error-message" style="display:none;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>图片加载失败，请检查网络连接</p>
+                            </div>
+                        </div>
+                        <div class="image-description">
+                            <h3><i class="fas fa-cloud"></i> 弹幕文本词云图</h3>
+                            <p>使用Python对弹幕文本进行清洗和分析后生成的词云图。词频越高显示越大，使用明日方舟角色余烬的主要配色方案，突出展示了观众讨论的热点词汇。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>© 2025 Python程序设计结课作业展示 | 使用HTML5, CSS3和JavaScript构建</p>
+            <p>数据来源：Bilibili弹幕数据 | 分析工具：Python</p>
+        </footer>
+    </div>
+
+    <script>
+        // 图片加载状态管理
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.image-container img');
+            
+            images.forEach(img => {
+                // 如果图片已经缓存，立即隐藏加载器
+                if(img.complete && img.naturalHeight !== 0) {
+                    img.previousElementSibling.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
